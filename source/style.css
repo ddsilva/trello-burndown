@@ -1,0 +1,29 @@
+body {
+  bottom: 0;
+  height: 80%;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 80%;
+}
+
+h1, h2 {
+  font-family: arial, sans-serif;
+}
+
+h1 {
+  font-size: 25px;
+  margin: 0 0 20px;
+  padding: 0;
+  text-align: center;
+}
+h2 {
+  font-size: 20px;
+  margin: 0 0 10px;
+}
+
+canvas {
+  margin-bottom: 50px
+}
