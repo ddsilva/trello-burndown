@@ -1,18 +1,16 @@
 //{done: Number, extras: Number}
 const SPRINT_TASKS = [
-  {done: 3, extras: 0},
-  {done: 0, extras: 0},
-  {done: 0, extras: 0}
+  {done: 1, extras: 0},
+  {done: 2, extras: 0}
 ];
 const SPRINT_ISSUES = [
-  {done: 18, extras: 0},
-  {done: 0, extras: 0},
-  {done: 0, extras: 0}
+  {done: 10, extras: 0},
+  {done: 8, extras: 0}
 ];
 
 const SPRINT_START_DAY = '3/15/2017'; //month/day
 const SPRINT_DAYS = 10;
-const INITIAL_SPRINT_TASKS = 9;
+const INITIAL_SPRINT_TASKS = 11;
 const INITIAL_SPRINT_POINTS = 28;
 const EXCEPTION_DAYS = [];
 
