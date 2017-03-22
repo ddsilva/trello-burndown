@@ -1,4 +1,4 @@
-((global) => {
+((Burndown) => {
   let lists, cards;
   const LISTS = {
     'objetivos': {
@@ -18,53 +18,45 @@
     cards: 'open'
   });
 
-  const getComments = () => Trello.get('/board/58c824490fc0684259d9f180/actions', {
+  const getComments = () => Trello.get(`/list/${LISTS.settings.id}/actions`, {
     filter: 'commentCard'
   });
 
-  const getSprintPoints = (lists) => {
-    const doneList = lists.find(list => list.id === LISTS['done'].id),
-          uniqTasks = []
+  const filterLists = lists => {
+    return lists.filter(item => {
+      let valid = true;
 
-    return doneList.cards.forEach(card => {
+      Object.keys(LISTS).forEach((value) => {
+        let object = LISTS[value];
 
+        if (object.exclude && object.id === item.id) {
+          valid = false
+        }
+      });
+
+      return valid
     });
-  }
-
-  const getSprintTasksLog = (lists) => {
-    lists.find()
-  }
+  };
 
   const init = () => {
     $.when(getLists(), getComments()).done( (lists, comments) => {
       lists = lists[0];
 
-      global.startDate = lists.find(item => item.id == LISTS.settings.id).cards[0].due;
+      const options = {
+        sprintStartDay: lists.find(item => item.id == LISTS.settings.id).cards[0].due,
+      };
 
-      lists = lists.filter(item => {
-        let valid = true;
+      lists = filterLists(lists);
 
-        Object.keys(LISTS).forEach((value) => {
-          let object = LISTS[value];
-
-          if (object.exclude && object.id === item.id) {
-            valid = false
-          }
-        });
-
-        return valid
+      Object.assign(options, {
+        sprintDays: comments[0][0].data.text,
+        initialSprintTaks: lists.reduce((prev, curr) => {
+          return prev + curr.cards.length
+        }, 0)
       });
 
-      global.cardLength = lists.reduce((prev, curr) => {
-        return prev + curr.cards.length
-      }, 0);
-
-      global.sprintDays = comments[0][0].data.text;
-
-      console.log(getSprintPoints(lists));
-
-      startburndown(global);
-    })
+      return new Burndown(options);
+    });
   };
 
   Trello.authorize({
@@ -75,4 +67,4 @@
     success: init,
     error: () => console.log('Failed authentication')
   });
-})(window);
+})(Burndown);
